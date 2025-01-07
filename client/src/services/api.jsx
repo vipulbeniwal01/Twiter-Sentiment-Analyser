@@ -2,12 +2,10 @@
 
 import axios from 'axios';
 
-// Set the base URL based on environment
 const API_BASE_URL = 'http://localhost:4000/api'
-// const API_BASE_URL = 'https://twitter-sentiment-analyzer-server.vercel.app/api'
 
 const api = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: 'https://twiter-sentiment-analyser-qsuq.vercel.app',
     headers: {
         'Content-Type': 'application/json',
     },
