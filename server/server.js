@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: ['https://twiter-sentiment-analyser.vercel.app', 'http://localhost:5173'], // Set directly to localhost
+  origin: ['https://twiter-sentiment-analyser.vercel.app'], // Set directly to localhost
   credentials: true
 }));
 
