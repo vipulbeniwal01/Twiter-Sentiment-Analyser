@@ -44,5 +44,7 @@ app.use((err, req, res, next) => {
 // Export the serverless handler
 export const handler = serverless(app);
 
-const PORT = 4000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
