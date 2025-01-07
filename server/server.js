@@ -11,6 +11,8 @@ dotenv.config();
 
 const app = express();
 
+const PORT = process.env.PORT || 4000;
+
 app.use(cors({
   origin: ['https://twiter-sentiment-analyser.vercel.app'], // Set directly to localhost
   credentials: true
@@ -44,7 +46,6 @@ app.use((err, req, res, next) => {
 // Export the serverless handler
 export const handler = serverless(app);
 
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
