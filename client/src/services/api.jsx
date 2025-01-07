@@ -2,10 +2,8 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:4000/api'
-
 const api = axios.create({
-    baseURL: 'https://twiter-sentiment-analyser-qsuq.vercel.app',
+    baseURL: 'https://twiter-sentiment-analyser-server.onrender.com/api',
     headers: {
         'Content-Type': 'application/json',
     },
