@@ -1,0 +1,53 @@
+/* TweetList.css */
+
+.tweet-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fafafa;
+  }
+  
+  .tweet-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .tweet-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .tweet-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #d0d0d0;
+  }
+  
+  .tweet-item:last-child {
+    border-bottom: none;
+  }
+  
+  .tweet-content {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .tweet-details {
+    font-size: 0.875rem;
+    color: #777;
+  }
+  
+  .tweet-link {
+    color: #1976d2;
+    text-decoration: none;
+    margin-right: 5px;
+  }
+  
+  .tweet-link:hover {
+    text-decoration: underline;
+  }
+  

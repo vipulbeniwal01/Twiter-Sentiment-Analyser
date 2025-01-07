@@ -1,0 +1,70 @@
+/* App.css */
+
+/* Reset some basic styles (optional but recommended) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #1976d2; */
+  background: linear-gradient(to right, #2a83db, #418ad2);
+  color: white;
+  padding: 18px 23px;
+}
+
+/* Title Styling */
+.header h1 {
+  font-size: 29px;
+  font-family: "Roboto","Helvetica","Arial", sans-serif;
+}
+
+/* Navigation Styling */
+.nav {
+  display: flex;
+  gap: 30px;
+  padding-right: 10px;
+  /* Space between links */
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  transition: color 0.3s ease;
+  position: relative;
+  /* For potential future enhancements */
+}
+
+.nav-link:hover {
+  color: #90caf9;
+}
+
+/* Main Content Area */
+.container {
+  margin-top: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Responsive Design (Optional) */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav {
+    margin-top: 10px;
+    gap: 10px;
+  }
+}

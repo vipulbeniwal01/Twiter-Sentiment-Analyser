@@ -1,0 +1,20 @@
+/* /src/pages/About.css */
+
+.about-container {
+    padding: 0px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .about-title {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    color: #5593d1;
+  }
+  
+  .about-paragraph {
+    font-size: 27px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    color: #555;
+  }

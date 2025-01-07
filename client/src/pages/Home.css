@@ -1,0 +1,19 @@
+/* Home.css */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .sentiment-result {
+    margin-top: 20px;
+  }
+  
+  .tweet-list {
+    margin-top: 20px;
+  }
+  
+  .chatbot {
+    margin-top: 20px;
+  }
