@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: twiter-seniment-analyser-server
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    region: oregon
+    build:
+      preBuildCommand:
+        - apt-get update && apt-get install -y \
+          libx11-xcb1 \
+          libxcomposite1 \
+          libxdamage1 \
+          libxi6 \
+          libxtst6 \
+          libnss3 \
+          libxrandr2 \
+          libasound2 \
+          libatk1.0-0 \
+          libgtk-3-0
