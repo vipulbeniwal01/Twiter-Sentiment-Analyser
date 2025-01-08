@@ -6,6 +6,14 @@ import dotenv from 'dotenv';
 // import morgan from 'morgan';
 import serverless from 'serverless-http'; // Import serverless-http
 
+import puppeteer from 'puppeteer';
+
+// Log the Chromium executable path
+(async () => {
+  const chromiumPath = puppeteer.executablePath();
+  console.log('Chromium executable path:', chromiumPath);
+})();
+
 // Load environment variables
 dotenv.config();
 

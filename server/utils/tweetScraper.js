@@ -6,13 +6,14 @@ import puppeteer from 'puppeteer';
  * @param {string} twitterId - The Twitter username (handle).
  * @returns {Promise<Array>} - An array of tweet objects with content, timestamp, and URL.
  */
+
 export const scrapeTweets = async (twitterId) => {
   const url = `https://twitter.com/${twitterId}`;
   console.log(`Navigating to URL: ${url}`);
 
   const browser = await puppeteer.launch({
     headless: 'new', // Run in headless mode
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable',
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/opt/render/.cache/puppeteer/chrome/linux-<version>/chrome',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
