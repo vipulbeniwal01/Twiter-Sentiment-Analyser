@@ -2,8 +2,8 @@ services:
   - type: web
     name: twiter-seniment-analyser-server
     env: node
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: npm install && npm run build
+    startCommand: node start
     plan: free
     region: oregon
     build:
