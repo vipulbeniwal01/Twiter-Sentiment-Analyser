@@ -13,7 +13,7 @@ export const scrapeTweets = async (twitterId) => {
 
   const browser = await puppeteer.launch({
     headless: 'new', // Run in headless mode
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/opt/render/.cache/puppeteer/chrome/linux-<version>/chrome',
+    executablePath: '/opt/render/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
