@@ -22,7 +22,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: ['https://twiter-sentiment-analyser.vercel.app'], // Set directly to localhost
+  origin: 'https://twiter-sentiment-analyser.vercel.app', // Set directly to localhost
   credentials: true
 }));
 
