@@ -2,8 +2,10 @@
 
 import axios from 'axios';
 
+const API_BASE_URL = 'https://twiter-sentiment-analyser-server.onrender.com/api'
+
 const api = axios.create({
-    baseURL: 'https://twiter-sentiment-analyser-server.onrender.com/api',
+    baseURL: API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
     },
