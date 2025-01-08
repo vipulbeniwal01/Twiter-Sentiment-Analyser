@@ -1,33 +1,30 @@
-# Use the official Puppeteer Docker image as the base
 FROM ghcr.io/puppeteer/puppeteer:23.11.1
 
-# Set environment variables to skip Chromium download and specify the executable path
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+# Install dependencies for Google Chrome
+RUN apt-get update && apt-get install -y wget gnupg unzip
 
-# Set the working directory inside the container
+# Add Google's official GPG key
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+
+# Set up the stable repository
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+
+# Install Google Chrome
+RUN apt-get update && apt-get install -y google-chrome-stable
+
+# Optional: Verify installation
+RUN google-chrome-stable --version
+
+# Continue with your existing setup
 WORKDIR /server
-
-# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
-
-# Switch to root user to perform installations and permission changes
-USER root
-
-# Install project dependencies with npm ci
 RUN npm ci
-
-# Copy the rest of your application code to the working directory
+RUN npm install -g npm@11.0.0
 COPY . .
-
-# Change ownership of the /server directory to the default non-root user (pptruser)
 RUN chown -R pptruser:pptruser /server
 
-# Switch back to the non-root user for security best practices
-USER pptruser
-
-# Expose the port on which your application will run
+# Expose the necessary port
 EXPOSE 10000
 
-# Define the command to run your application
-CMD ["node", "server.js"]
+# Define the default command
+CMD ["npm", "start"]
