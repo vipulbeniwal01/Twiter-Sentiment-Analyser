@@ -94,14 +94,7 @@ export const scrapeTweets = async (twitterId) => {
   const browser = await puppeteer.launch({
     headless: true, // Run in headless mode for efficiency
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable', // Optional path
-    args: ['--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--disable-software-rasterizer',
-      '--disable-web-security',
-      '--proxy-server=http://216.229.112.25:8080',
-    ],
+    args: ['--no-sandbox','--disable-setuid-sandbox',],
   });
 
   const page = await browser.newPage();
