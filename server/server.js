@@ -8,16 +8,16 @@ import serverless from 'serverless-http'; // Import serverless-http
 
 import puppeteer from 'puppeteer';
 
-// Load environment variables
-dotenv.config();
-
-const app = express();
-
 // Log the Chromium executable path
 (async () => {
   const chromiumPath = puppeteer.executablePath();
   console.log('Chromium executable path:', chromiumPath);
 })();
+
+// Load environment variables
+dotenv.config();
+
+const app = express();
 
 const PORT = process.env.PORT || 4000;
 
