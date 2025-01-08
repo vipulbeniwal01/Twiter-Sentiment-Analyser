@@ -11,11 +11,16 @@ export const scrapeTweets = async (twitterId) => {
   const url = `https://twitter.com/${twitterId}`;
   console.log(`Navigating to URL: ${url}`);
 
-  const browser = await puppeteer.launch({
-    headless: 'new', // Run in headless mode
-    executablePath: '/opt/render/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome',
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
+  try {
+    const browser = await puppeteer.launch({
+      headless: 'new',
+      executablePath: '/opt/render/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
+  } catch (error) {
+    console.error('Puppeteer launch error:', error);
+    throw error;
+  }
 
   const page = await browser.newPage();
 
@@ -37,9 +42,9 @@ export const scrapeTweets = async (twitterId) => {
         await new Promise(resolve => setTimeout(resolve, 2000));
         lastHeight = currentHeight;
         let a = 0;
-        while(a<10){
+        while (a < 10) {
           currentHeight = document.body.scrollHeight;
-        a++;
+          a++;
         }
 
 
