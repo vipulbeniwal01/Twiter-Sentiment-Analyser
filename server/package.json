@@ -5,9 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install && chmod +x /opt/render/.cache/puppeteer/chrome/linux-*/chrome-linux64/chrome",
-    "postinstall": "puppeteer install && chmod +x /opt/render/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome",
-    "install": "npm install puppeteer-core && npx puppeteer browsers install",
+    "install": "npm install puppeteer-core",
+    "postinstall": "chmod +x /usr/bin/google-chrome-stable",
     "start": "node server.js"
   },
   "keywords": [],
