@@ -21,7 +21,7 @@ export const scrapeTweets = async (twitterId) => {
 
   try {
     // Set a realistic user-agent to avoid bot detection
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36');
+    // await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36');
 
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 0 });
     console.log('Page loaded successfully.');
