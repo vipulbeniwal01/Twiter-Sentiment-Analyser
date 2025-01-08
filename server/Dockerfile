@@ -26,8 +26,5 @@ RUN chown -R pptruser:pptruser /server
 # Switch back to the non-root user for security best practices
 USER pptruser
 
-# Expose the port on which your application will run
-EXPOSE 10000
-
 # Define the command to run your application
 CMD ["node", "server.js"]
