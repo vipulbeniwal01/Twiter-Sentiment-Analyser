@@ -2,7 +2,7 @@ services:
   - type: web
     name: twiter-seniment-analyser-server
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --unsafe-perm && npm run build
     startCommand: node start
     plan: free
     region: oregon
