@@ -5,7 +5,7 @@ FROM ghcr.io/puppeteer/puppeteer:23.11.1
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
-# Switch to root user to perform installations
+# Switch to the root user to perform installations
 USER root
 
 # Install Google Chrome Stable and necessary packages
@@ -16,17 +16,20 @@ RUN apt-get update && apt-get install -y curl gnupg --no-install-recommends \
     && apt-get install -y google-chrome-stable --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-# Create and set the working directory
-WORKDIR /server
+# Create the /server directory and set ownership to pptruser
+RUN mkdir -p /server && chown -R pptruser:pptruser /server
 
-# Copy package.json and package-lock.json with correct ownership
-COPY --chown=pptruser:pptruser package*.json ./
+# Set the working directory
+WORKDIR /server
 
 # Switch to the non-root user
 USER pptruser
 
-# Install project dependencies with npm
-RUN npm install
+# Copy package.json and package-lock.json with correct ownership
+COPY --chown=pptruser:pptruser package*.json ./
+
+# Install Node.js dependencies
+RUN npm ci --only=production
 
 # Copy the rest of your application code with correct ownership
 COPY --chown=pptruser:pptruser . .
