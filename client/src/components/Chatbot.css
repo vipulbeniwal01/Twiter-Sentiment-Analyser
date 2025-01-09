@@ -6,6 +6,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background-color: #fafafa;
+    margin-bottom: 40px;
   }
   
   .chatbot-title {
@@ -63,15 +64,16 @@
   
   .chatbot-input {
     flex: 1;
-    padding: 10px 15px;
+    padding: 10px 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    margin-bottom: 0px;
   }
   
   .chatbot-send-button {
-    padding: 10px 20px;
+    padding: 0px 30px;
     font-size: 1rem;
     background-color: #1976d2;
     color: white;
