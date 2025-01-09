@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = 'https://tweet-tone-server-987653314805.us-central1.run.app'
+const API_BASE_URL = 'https://tweet-tone-server-987653314805.us-central1.run.app/api'
 
 const api = axios.create({
     baseURL: API_BASE_URL,
