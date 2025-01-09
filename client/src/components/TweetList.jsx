@@ -1,14 +1,14 @@
-// /src/components/TweetList.jsx
-
 import React from 'react';
 import './TweetList.css'; // Import the CSS file
 
 const TweetList = ({ tweets }) => {
+  const latestTweets = tweets.slice(0, 5); // Get only the first 5 tweets
+
   return (
     <div className="tweet-container">
       <div className="tweet-title">Latest Tweets:</div>
       <ul className="tweet-list">
-        {tweets.map((tweet) => (
+        {latestTweets.map((tweet) => (
           <li key={tweet.id} className="tweet-item">
             <div className="tweet-content">{tweet.content}</div>
             <div className="tweet-details">
