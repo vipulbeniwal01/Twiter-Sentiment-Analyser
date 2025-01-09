@@ -18,7 +18,7 @@ function App() {
     <Router>
       {/* Header Section */}
       <header className="header">
-        <h1>Twitter Sentiment Analyzer</h1>
+        <h1>TweetTone</h1>
         <nav className="nav">
           <Link to="/" className="nav-link">
             Home
