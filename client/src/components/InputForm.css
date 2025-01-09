@@ -6,6 +6,8 @@
     padding: 20px;
   }
   
+
+
   .input-form {
     display: flex;
     flex-direction: column;
@@ -22,7 +24,7 @@
   .submit-button {
     padding: 12px;
     font-size: 16px;
-    background-color: #2a83db;
+    background-color: #4d60d9;
     color: white;
     border: none;
     border-radius: 4px;
@@ -31,11 +33,11 @@
   }
   
   .submit-button:hover {
-    background-color: #115293;
+    background-color: #2a42db;
   }
   
   .submit-button:disabled {
-    background-color: #90caf9;
+    background-color: #3446ba;
     cursor: not-allowed;
   }
   

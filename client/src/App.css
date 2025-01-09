@@ -9,6 +9,7 @@
 
 body {
   font-family: Arial, sans-serif;
+  background-color: #272727;
 }
 
 /* Header Section */
@@ -17,7 +18,7 @@ body {
   justify-content: space-between;
   align-items: center;
   /* background-color: #1976d2; */
-  background: linear-gradient(to right, #2a83db, #418ad2);
+  background: linear-gradient(to right, #2a42db, #d241c8);
   color: white;
   padding: 18px 23px;
 }
@@ -51,8 +52,8 @@ body {
 
 /* Main Content Area */
 .container {
-  margin-top: 20px;
-  padding: 20px;
+  margin-top: 15px;
+  padding: 0px;
   text-align: center;
 }
 

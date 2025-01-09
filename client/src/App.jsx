@@ -4,7 +4,14 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import Home from './pages/home'
 import About from './pages/about';
+import Token from './pages/token';
 import './App.css'; // Import the CSS file
+import { Buffer } from 'buffer';
+
+// Polyfill Buffer for browser
+if (!window.Buffer) {
+    window.Buffer = Buffer;
+}
 
 function App() {
   return (
@@ -16,6 +23,9 @@ function App() {
           <Link to="/" className="nav-link">
             Home
           </Link>
+          <Link to="/token" className="nav-link">
+            CreateToken
+          </Link>
           <Link to="/about" className="nav-link">
             About
           </Link>
@@ -26,6 +36,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/token" element={<Token />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </div>
