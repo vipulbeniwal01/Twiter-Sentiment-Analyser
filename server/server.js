@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 4000;
 export const handler = serverless(app);
 
 app.use(cors({
-  origin: 'https://tweet-tone.vercel.app', // Be sure to switch to your production domain
+  origin: '*', // Be sure to switch to your production domain
   credentials: true
 }));
 
