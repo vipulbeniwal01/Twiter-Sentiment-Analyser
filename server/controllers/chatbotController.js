@@ -10,7 +10,7 @@ import { sendMessageToChatbot } from '../utils/chatbot.js';
  * @param {Object} res - Express response object.
  */
 export const getChatbotResponse = async (req, res) => {
-  const { message, tweets } = req.body;
+  const { message, tweets, twitterId } = req.body;
 
   // Input validation
 //   if (!message || tweets === undefined) {
@@ -19,7 +19,7 @@ export const getChatbotResponse = async (req, res) => {
 
   try {
     // Get the chatbot's reply from the Gemini API
-    const reply = await sendMessageToChatbot(message, tweets);
+    const reply = await sendMessageToChatbot(message, tweets, twitterId);
     
     // Send the reply back to the client
     res.json({ reply });

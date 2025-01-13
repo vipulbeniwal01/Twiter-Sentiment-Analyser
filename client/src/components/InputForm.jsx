@@ -1,10 +1,8 @@
-// // /src/components/InputForm.jsx
 import React, { useState } from 'react';
 import './InputForm.css'; // Import the CSS file
 import { fetchAndAnalyze } from '../services/api';
 
-const InputForm = ({ setSentiment, setTweets }) => {
-  const [twitterId, setTwitterId] = useState('');
+const InputForm = ({ twitterId, setTwitterId, setSentiment, setTweets }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +11,7 @@ const InputForm = ({ setSentiment, setTweets }) => {
     setError(null);
     setLoading(true);
 
-    // **Reset the sentiment and tweets before starting a new analysis**
+    // Reset the sentiment and tweets before starting a new analysis
     setSentiment(null);
     setTweets([]);
 

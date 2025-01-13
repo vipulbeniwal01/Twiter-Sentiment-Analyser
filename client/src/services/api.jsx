@@ -25,7 +25,7 @@ export const fetchAndAnalyze = async (twitterId) => {
 };
 
 // Get Chatbot Reply
-export const getChatbotReply = async (message, tweets) => {
+export const getChatbotReply = async (message, tweets, twitterId) => {
     try {
         // Remove the '/api' prefix since it's already in the baseURL
         const response = await api.post('/chatbot', { message, tweets });

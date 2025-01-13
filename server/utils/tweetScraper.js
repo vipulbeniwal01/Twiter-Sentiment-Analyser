@@ -12,7 +12,8 @@ export const scrapeTweets = async (twitterId) => {
 
   const browser = await puppeteer.launch({
     headless: true, // Run in headless mode for efficiency
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable', // Optional path
+    // executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable', // Optional path
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/Users/vipulbeniwal/.cache/puppeteer/chrome/mac_arm-131.0.6778.204/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing', // Optional path
     args: ['--no-sandbox','--disable-setuid-sandbox',],
   });
 

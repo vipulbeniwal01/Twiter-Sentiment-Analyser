@@ -6,12 +6,13 @@ import TweetList from '../components/TweetList';
 import Chatbot from '../components/Chatbot';
 
 const Home = () => {
+  const [twitterId, setTwitterId] = useState('');
   const [sentiment, setSentiment] = useState(null);
   const [tweets, setTweets] = useState([]);
 
   return (
     <div className="container">
-      <InputForm setSentiment={setSentiment} setTweets={setTweets} />
+      <InputForm twitterId={twitterId} setSentiment={setSentiment} setTweets={setTweets} setTwitterId={setTwitterId} />
       
       {sentiment !== null && (
         <div className="sentiment-result">
@@ -27,7 +28,7 @@ const Home = () => {
       
       {sentiment !== null && (
         <div className="chatbot">
-          <Chatbot tweets={tweets} />
+          <Chatbot tweets={tweets} twitterId={twitterId} />
         </div>
       )}
     </div>

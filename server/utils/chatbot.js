@@ -1,75 +1,163 @@
-// chatbot.js
+// utils/chatbot.js
 
 import dotenv from 'dotenv';
 import retry from 'async-retry';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import vader from 'vader-sentiment'; // Corrected import for vader-sentiment
 
 dotenv.config();
 
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY; // Ensure this is set in your .env file
+
+if (!GOOGLE_API_KEY) {
+    throw new Error('GOOGLE_API_KEY is not set in the environment variables.');
+}
 
 // Initialize the Google Generative AI client with your API key
 const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 /**
- * Function to send a message to the chatbot, perform sentiment analysis on tweets,
- * and generate a response based on the aggregated sentiment.
+ * Function to analyze the sentiment of a tweet.
+ *
+ * @param {string} tweetContent - The content of a single tweet for sentiment analysis.
+ * @returns {string} - The analyzed tone of the tweet.
+ */
+const analyzeTone = (tweetContent) => {
+    // Ensure the tweet content is a string
+    if (typeof tweetContent !== 'string') {
+        throw new Error('The tweet content must be a string');
+    }
+
+    const sentiment = vader.SentimentIntensityAnalyzer.polarity_scores(tweetContent);
+
+    let tone = '';
+    if (sentiment.compound >= 0.5) {
+        tone = 'strongly positive';
+    } else if (sentiment.compound >= 0.05) {
+        tone = 'positive';
+    } else if (sentiment.compound > -0.05) {
+        tone = 'neutral';
+    } else if (sentiment.compound >= -0.5) {
+        tone = 'negative';
+    } else {
+        tone = 'strongly negative';
+    }
+
+    if (sentiment.pos > 0.6) {
+        tone += ' with a cheerful tone';
+    } else if (sentiment.neg > 0.6) {
+        tone += ' with an intense tone of criticism';
+    } else if (sentiment.neu > 0.6) {
+        tone += ' with a neutral tone';
+    }
+
+    return tone;
+};
+
+/**
+ * Function to determine the dominant tone from an array of tones.
+ *
+ * @param {Array<string>} tones - An array of tone strings.
+ * @returns {string} - The dominant tone.
+ */
+const getDominantTone = (tones) => {
+    if (!tones.length) return 'neutral';
+
+    const toneFrequency = tones.reduce((acc, tone) => {
+        acc[tone] = (acc[tone] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Find the tone with the highest frequency
+    return Object.keys(toneFrequency).reduce((a, b) => toneFrequency[a] > toneFrequency[b] ? a : b);
+};
+
+/**
+ * Function to generate a chatbot response based on the tone of the tweets and the user message.
  *
  * @param {string} message - The user message or question.
- * @param {Array<string>} tweets - An array of tweets for sentiment analysis.
- * @returns {Promise<string>} - The formatted response containing overall sentiment and chatbot reply.
+ * @param {Array<Object>} tweets - An array of tweet objects containing tweet content for sentiment analysis.
+ * @param {string} twitterId - The Twitter ID associated with the tweets.
+ * @returns {Promise<string>} - The chatbot response.
  */
-export const sendMessageToChatbot = async (message, tweets = []) => {
+export const sendMessageToChatbot = async (message, tweets = [], twitterId = '') => {
     try {
-        // Use retry to handle transient failures
-        const response = await retry(
-            async (bail) => {
+        // Validate inputs
+        if (typeof message !== 'string') {
+            throw new Error('Message must be a string.');
+        }
+        if (!Array.isArray(tweets)) {
+            throw new Error('Tweets must be an array of objects.');
+        }
+        if (typeof twitterId !== 'string') {
+            throw new Error('Twitter ID must be a string.');
+        }
 
-                const tweetContents = tweets.map(tweet => tweet.content);
+        // Extract the content from each tweet object for analysis
+        const tweetContents = tweets.map(tweet => {
+            if (!tweet.content || typeof tweet.content !== 'string') {
+                throw new Error('Each tweet must have a string "content" property.');
+            }
+            return tweet.content;
+        });
 
-                const responsePrompt = `
-You are an AI chatbot that responds appropriately based on the overall sentiment of these tweets.
+        // Analyze the tone of each tweet
+        const tones = tweetContents.map(analyzeTone);
 
-Tweets: "${tweetContents}"
+        // Determine the dominant tone correctly
+        const dominantTone = getDominantTone(tones);
 
-User Message: "${message}"
+        // Construct the prompt directly with correct roles
+        const responsePrompt = `
+system: You are ${twitterId}, a person with the following characteristics based on their tweets:
+- **Tone:** ${dominantTone}
 
-Please respond in **only one concise line** that reflects the overall sentiment of the tweets. It is not mandaotory that message content is of same topis related to tweets you only have to focus on sentiments. You have to reply question in the way like you are the person who tweets that and now you have to answer this question. . Avoid using multiple sentences or line breaks. Add emoji also.
+Your goal is to engage in conversations authentically, reflecting the aforementioned traits. Always respond as ${twitterId} without revealing that you are an AI. Keep your responses concise, limited to discussing Technology, Travel, and Coffee. For example, if asked about Technology, you might say, "AI is fascinating! It reminds me of that time I tried to teach my cat to code—spoiler: it didn't work."
 
-Example:
-Message: "How many more kids will Elon have? 😂"
-Tweets Sentiment: Positive
-Response: Haha, who knows? The universe is full of mysteries. 😉
-                `;
+human: ${message}
+        `.trim();
 
-                const chatResponse = await model.generateContent(responsePrompt, {
+        const chatResponse = await retry(
+            async () => {
+                const result = await model.generateContent(responsePrompt, {
                     temperature: 0.7, // Adjust for creativity
-                    maxOutputTokens: 60, // Adjust based on desired response length
-                    stopSequences: ['\n'], // Optional: Stop at newline to encourage single-line response
+                    maxOutputTokens: 200, // Increased tokens for more comprehensive responses
+                    stopSequences: ['\nai:'] // Stop after AI's response begins
                 });
 
-                // Invoke the text function to get the string
-                let responseText = chatResponse.response.text().trim();
+                // Log the entire result for debugging
+                console.log('Generative AI Response:', result);
 
-                // Post-process to ensure single-line response
-                responseText = responseText.replace(/\s*\n\s*/g, ' ').replace(/\s{2,}/g, ' ');
+                // Validate the response structure
+                if (!result || !result.response) {
+                    throw new Error('Invalid response structure from Generative AI.');
+                }
 
-                // Optionally, remove any remaining line breaks
-                responseText = responseText.replace(/[\r\n]+/g, ' ').trim();
-
-                return responseText;
+                // Handle different possible structures of result.response.text
+                if (typeof result.response.text === 'function') {
+                    const text = await result.response.text();
+                    if (typeof text !== 'string') {
+                        throw new Error('The text obtained from response.text() is not a string.');
+                    }
+                    return text.trim();
+                } else if (typeof result.response.text === 'string') {
+                    return result.response.text.trim();
+                } else {
+                    throw new Error('Unexpected type for result.response.text');
+                }
             },
             {
-                retries: 3, // Number of retry attempts
-                minTimeout: 1000, // Minimum wait time between retries in ms
+                retries: 3,
+                minTimeout: 1000,
                 onRetry: (error, attempt) => {
-                    console.warn(`Retry attempt ${attempt} due to error: ${error.message}`);
+                    console.warn(`Retry attempt ${attempt}: ${error.message}`);
                 },
             }
         );
 
-        return response;
+        // Clean up the response by removing excessive whitespace and newlines
+        return chatResponse.replace(/\s*\n\s*/g, ' ').trim();
     } catch (error) {
         console.error('Failed to process the message:', error);
         throw new Error('Unable to process the message at this time. Please try again later.');
